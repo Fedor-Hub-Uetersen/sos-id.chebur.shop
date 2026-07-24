@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS.Chebur.Shop | Devices & Emergency Profiles</title>
+    <style>
+        :root {
+            --primary: #e63946;
+            --primary-hover: #d62828;
+            --dark: #1d3557;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --accent: #457b9d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Шапка */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Переключатель языков */
+        .lang-switch {
+            display: flex;
+            gap: 5px;
+            background: #e9ecef;
+            padding: 3px;
+            border-radius: 20px;
+        }
+
+        .lang-btn {
+            border: none;
+            background: transparent;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: var(--dark);
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--dark);
+            border: 2px solid var(--dark);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--dark);
+            color: var(--white);
+        }
+
+        /* ТЕКСТОВЫЕ ССЫЛКИ */
+        .inline-link {
+            color: var(--accent);
+            font-weight: bold;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+
+        .inline-link:hover {
+            color: var(--primary);
+        }
+
+        /* БАННЕР-СЛАЙДЕР */
+        .hero-slider {
+            position: relative;
+            background: linear-gradient(135deg, var(--dark), var(--accent));
+            color: var(--white);
+            padding: 4rem 2rem 5rem;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h1 {
+            font-size: 2.3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .slide p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Кнопки управления слайдером */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+            user-select: none;
+        }
+
+        .slider-arrow:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .prev-arrow { left: 20px; }
+        .next-arrow { right: 20px; }
+
+        /* Точки-индикаторы */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            width: 25px;
+            border-radius: 10px;
+        }
+
+        /* Раздел О НАС */
+        .about-section {
+            max-width: 1100px;
+            margin: 4rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .about-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .about-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+            border-bottom: 3px solid var(--primary);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-text {
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* Прямой видеоплеер HTML5 */
+        .video-wrapper {
+            margin-top: 1rem;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #000;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Витрина товаров */
+        .products-section {
+            max-width: 1100px;
+            margin: 3rem auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 2.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image-wrap {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.2rem;
+            background-color: #f1f3f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Баннер перехода */
+        .system-banner {
+            background: #eef2f7;
+            border-left: 5px solid var(--accent);
+            max-width: 1100px;
+            margin: 2rem auto 4rem;
+            padding: 2rem;
+            border-radius: 0 16px 16px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .system-banner h3 {
+            color: var(--dark);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Модалка заказа */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .slider-arrow { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">🚨 SOS.Chebur.Shop</a>
+            <div class="nav-right">
+                <nav class="nav-menu">
+                    <a href="#about" class="nav-link" id="nav-about-link">О нас</a>
+                    <a href="#catalog" class="nav-link" id="nav-catalog-link">Каталог</a>
+                </nav>
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLanguage('ru')">RU</button>
+                    <button class="lang-btn" onclick="setLanguage('ua')">UA</button>
+                    <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+                </div>
+                <a href="https://www.sos-id.online" target="_blank" class="btn btn-outline" id="nav-login">Войти в SOS-ID ↗</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ГЛАВНЫЙ БАННЕР-СЛАЙДЕР (3 ПРОДУКТА) -->
+    <section class="hero-slider">
+        <button class="slider-arrow prev-arrow" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="slider-arrow next-arrow" onclick="changeSlide(1)">&#10095;</button>
+
+        <!-- Слайд 1: QR-Браслеты -->
+        <div class="slide active">
+            <h1 id="s1-title">⌚ QR-Браслеты Экстренной Помощи</h1>
+            <p id="s1-desc">Прочный силиконовый браслет с мгновенным доступом к медицинской карте SOS-ID при сканировании смартфоном.</p>
+            <div class="hero-btns">
+                <button class="btn" onclick="openOrder('p1')">Заказать за 15 €</button>
+                <a href="https://www.sos-id.online/sos/pqSC2kcJ" target="_blank" class="btn btn-outline" style="color: white; border-color: white;" class="btn-demo">Пример профиля (SOS) ↗</a>
+            </div>
+        </div>
+
+        <!-- Слайд 2: GPS-Трекеры -->
+        <div class="slide">
+            <h1 id="s2-title">📍 GPS-Трекеры «Забота»</h1>
+            <p id="s2-desc">Компактное устройство с кнопкой SOS, отслеживанием местоположения и датчиком падения для детей и пожилых.</p>
+            <div class="hero-btns">
+                <button class="btn" onclick="openOrder('p2')">Заказать за 49 €</button>
+                <a href="https://www.sos-id.online/sos/pqSC2kcJ" target="_blank" class="btn btn-outline" style="color: white; border-color: white;" class="btn-demo">Пример профиля (SOS) ↗</a>
+            </div>
+        </div>
+
+        <!-- Слайд 3: SOS-Брелоки -->
+        <div class="slide">
+            <h1 id="s3-title">🏷️ Металлические SOS-Брелоки</h1>
+            <p id="s3-desc">Надёжный кулон или брелок на ключи с гравировкой QR-кода. Работает без подзарядки и всегда под рукой.</p>
+            <div class="hero-btns">
+                <button class="btn" onclick="openOrder('p3')">Заказать за 12 €</button>
+                <a href="https://www.sos-id.online/sos/pqSC2kcJ" target="_blank" class="btn btn-outline" style="color: white; border-color: white;" class="btn-demo">Пример профиля (SOS) ↗</a>
+            </div>
+        </div>
+
+        <!-- Точки-индикаторы -->
+        <div class="slider-dots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+        </div>
+    </section>
+
+    <!-- Раздел О НАС -->
+    <section class="about-section" id="about">
+        <div class="about-card">
+            <div>
+                <h2 class="about-title" id="about-title">О нашем проекте</h2>
+            </div>
+            <p class="about-text" id="about-p1">
+                <strong>SOS.Chebur.Shop</strong> — это специализированный магазин умных устройств экстренной помощи, созданный для защиты самых дорогих людей: детей, пожилых родственников, а также людей с хроническими заболеваниями (сахарный диабет, аллергии, сердечно-сосудистые особенности).
+            </p>
+            <p class="about-text" id="about-p2">
+                Мы объединяем надежные физические носители (браслеты, кулоны, GPS-трекеры) с единой онлайн-платформой <a href="https://www.sos-id.online" target="_blank" class="inline-link">SOS-ID.online</a>. В случае экстренной ситуации прохожему или медику достаточно считать QR-код обычным смартфоном, чтобы сразу получить доступ к важной медицинской информации, видеоинструкциям первой помощи и кнопкам быстрого звонка родным.
+            </p>
+
+            <!-- ПРЯМОЙ ВИДЕОПЛЕЕР ДЛЯ ФАЙЛА PROMO.MP4 -->
+            <div class="video-wrapper">
+                <video controls playsinline preload="metadata">
+                    <source src="promo.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает встроенное видео.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Витрина -->
+    <section class="products-section" id="catalog">
+        <h2 class="section-title" id="catalog-title">Наши устройства</h2>
+        
+        <div class="products-grid">
+            
+            <!-- Товар 1 -->
+            <div class="product-card">
+                <div>
+                    <div class="product-image-wrap">
+                        <img src="bracelet.jpg" alt="QR-Браслет" class="product-img">
+                    </div>
+                    <h3 class="product-title" id="p1-title">QR-Браслет Экстренный</h3>
+                    <p class="product-desc" id="p1-desc">Прочный силиконовый браслет с гипоаллергенным покрытием. Мгновенно открывает профиль SOS-ID при сканировании камерой.</p>
+                </div>
+                <div>
+                    <div class="product-price">15 €</div>
+                    <button class="btn btn-buy" style="width: 100%;" onclick="openOrder('p1')">Заказать</button>
+                </div>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="product-card">
+                <div>
+                    <div class="product-image-wrap">
+                        <img src="tracker.jpg" alt="GPS-Трекер" class="product-img">
+                    </div>
+                    <h3 class="product-title" id="p2-title">GPS-Трекер «Забота»</h3>
+                    <p class="product-desc" id="p2-desc">Компактный трекер для пожилых людей и детей. Кнопка SOS, отслеживание геопозиции в реальном времени и датчик падения.</p>
+                </div>
+                <div>
+                    <div class="product-price">49 €</div>
+                    <button class="btn btn-buy" style="width: 100%;" onclick="openOrder('p2')">Заказать</button>
+                </div>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="product-card">
+                <div>
+                    <div class="product-image-wrap">
+                        <img src="keychain.jpg" alt="SOS-Брелок" class="product-img">
+                    </div>
+                    <h3 class="product-title" id="p3-title">SOS-Брелок / Медальон</h3>
+                    <p class="product-desc" id="p3-desc">Металлический брелок с гравировкой QR-кода на ключи или сумку. Всегда с вами, не требует подзарядки.</p>
+                </div>
+                <div>
+                    <div class="product-price">12 €</div>
+                    <button class="btn btn-buy" style="width: 100%;" onclick="openOrder('p3')">Заказать</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Блок связи с платформой -->
+    <div class="system-banner">
+        <div>
+            <h3 id="banner-title">Уже есть наше устройство?</h3>
+            <p id="banner-desc">Заполните медицинскую карту, укажите контакты близких и загрузите видеоинструкцию в системе sos-id.online.</p>
+        </div>
+        <a href="https://www.sos-id.online" target="_blank" class="btn" style="background-color: var(--dark);" id="banner-btn">Создать профиль SOS-ID ↗</a>
+    </div>
+
+    <!-- Модальное окно заказа -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeOrder()">&times;</span>
+            <h3 style="margin-bottom: 1rem; color: var(--dark);" id="modal-title">Оформить заказ</h3>
+            <form id="modalForm">
+                <div class="form-group">
+                    <label id="lbl-product">Товар</label>
+                    <input type="text" id="productName" readonly style="background: #eee;">
+                </div>
+                <div class="form-group">
+                    <label id="lbl-name">Ваше имя</label>
+                    <input type="text" id="input-name" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label id="lbl-phone">Телефон / WhatsApp</label>
+                    <input type="tel" placeholder="+49..." required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;" id="modal-submit">Подтвердить заказ</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p id="footer-text">&copy; 2026 SOS.Chebur.Shop & SOS-ID. Все права защищены.</p>
+    </footer>
+
+    <script>
+        const MY_WHATSAPP_NUMBER = "4917661566343";
+
+        const translations = {
+            ru: {
+                navAbout: "О нас",
+                navCatalog: "Каталог",
+                navLogin: "Войти в SOS-ID ↗",
+                s1Title: "⌚ QR-Браслеты Экстренной Помощи",
+                s1Desc: "Прочный силиконовый браслет с мгновенным доступом к медицинской карте SOS-ID при сканировании смартфоном.",
+                s1Btn: "Заказать за 15 €",
+                s2Title: "📍 GPS-Трекеры «Забота»",
+                s2Desc: "Компактное устройство с кнопкой SOS, отслеживанием местоположения и датчиком падения для детей и пожилых.",
+                s2Btn: "Заказать за 49 €",
+                s3Title: "🏷️ Металлические SOS-Брелоки",
+                s3Desc: "Надёжный кулон или брелок на ключи с гравировкой QR-кода. Работает без подзарядки и всегда под рукой.",
+                s3Btn: "Заказать за 12 €",
+                heroDemo: "Пример профиля (SOS) ↗",
+                aboutTitle: "О нашем проекте",
+                aboutP1: "<strong>SOS.Chebur.Shop</strong> — это специализированный магазин умных устройств экстренной помощи, созданный для защиты самых дорогих людей: детей, пожилых родственников, а также людей с хроническими заболеваниями (сахарный диабет, аллергии, сердечно-сосудистые особенности).",
+                aboutP2: "Мы объединяем надежные физические носители (браслеты, кулоны, GPS-трекеры) с единой онлайн-платформой <a href='https://www.sos-id.online' target='_blank' class='inline-link'>SOS-ID.online</a>. В случае экстренной ситуации прохожему или медику достаточно считать QR-код обычным смартфоном, чтобы сразу получить доступ к важной медицинской информации, видеоинструкциям первой помощи и кнопкам быстрого звонка родным.",
+                catalogTitle: "Наши устройства",
+                p1Title: "QR-Браслет Экстренный",
+                p1Desc: "Прочный силиконовый браслет с гипоаллергенным покрытием. Мгновенно открывает профиль SOS-ID при сканировании камерой.",
+                p2Title: "GPS-Трекер «Забота»",
+                p2Desc: "Компактный трекер для пожилых людей и детей. Кнопка SOS, отслеживание геопозиции в реальном времени и датчик падения.",
+                p3Title: "SOS-Брелок / Медальон",
+                p3Desc: "Металлический брелок с гравировкой QR-кода на ключи или сумку. Всегда с вами, не требует подзарядки.",
+                buyBtn: "Заказать",
+                bannerTitle: "Уже есть наше устройство?",
+                bannerDesc: "Заполните медицинскую карту, укажите контакты близких и загрузите видеоинструкцию в системе sos-id.online.",
+                bannerBtn: "Создать профиль SOS-ID ↗",
+                modalTitle: "Оформить заказ",
+                lblProduct: "Товар",
+                lblName: "Ваше имя",
+                lblPhone: "Телефон / WhatsApp",
+                modalSubmit: "Подтвердить заказ",
+                footerText: "© 2026 SOS.Chebur.Shop & SOS-ID. Все права защищены."
+            },
+            ua: {
+                navAbout: "Про нас",
+                navCatalog: "Каталог",
+                navLogin: "Увійти в SOS-ID ↗",
+                s1Title: "⌚ QR-Браслети Екстреної Допомоги",
+                s1Desc: "Міцний силіконовий браслет із миттєвим доступом до медичної картки SOS-ID при скануванні смартфоном.",
+                s1Btn: "Замовити за 15 €",
+                s2Title: "📍 GPS-Трекери «Турбота»",
+                s2Desc: "Компактний пристрій із кнопкою SOS, відстеженням розташування та датчиком падіння для дітей та літніх людей.",
+                s2Btn: "Замовити за 49 €",
+                s3Title: "🏷️ Металеві SOS-Брелоки",
+                s3Desc: "Надійний кулон або брелок на ключі з гравіюванням QR-коду. Працює без підзарядки та завжди під рукою.",
+                s3Btn: "Замовити за 12 €",
+                heroDemo: "Приклад профілю (SOS) ↗",
+                aboutTitle: "Про наш проект",
+                aboutP1: "<strong>SOS.Chebur.Shop</strong> — це спеціалізований магазин розумних пристроїв екстреної допомоги, створений для захисту найдорожчих людей: дітей, літніх родичів, а також людей із хронічними захворюваннями (цукровий діабет, алергії, особливості серцево-судинної системи).",
+                aboutP2: "Ми об'єднуємо надійні фізичні носії (браслети, кулони, GPS-трекери) з єдиною онлайн-платформою <a href='https://www.sos-id.online' target='_blank' class='inline-link'>SOS-ID.online</a>. У разі екстреної ситуації перехожому або медику достатньо зчитати QR-код звичайним смартфоном, щоб одразу отримати доступ до важливої медичної інформації, відеоінструкцій першої допомоги та кнопок швидкого дзвінка рідним.",
+                catalogTitle: "Наші пристрої",
+                p1Title: "QR-Браслет Екстрений",
+                p1Desc: "Міцний силіконовий браслет із гіпоалергенним покриттям. Миттєво відкриває профіль SOS-ID при скануванні камерою.",
+                p2Title: "GPS-Трекер «Турбота»",
+                p2Desc: "Компактний трекер для літніх людей та дітей. Кнопка SOS, відстеження геопозиції в реальному часі та датчик падіння.",
+                p3Title: "SOS-Брелок / Медальйон",
+                p3Desc: "Металевий брелок із гравіюванням QR-коду на ключі або сумку. Завжди з вами, не потребує підзарядки.",
+                buyBtn: "Замовити",
+                bannerTitle: "Вже маєте наш пристрій?",
+                bannerDesc: "Заповніть медичну картку, вкажіть контакти близьких та завантажте відеоінструкцію в системі sos-id.online.",
+                bannerBtn: "Створити профіль SOS-ID ↗",
+                modalTitle: "Оформити замовлення",
+                lblProduct: "Товар",
+                lblName: "Ваше ім'я",
+                lblPhone: "Телефон / WhatsApp",
+                modalSubmit: "Підтвердити замовлення",
+                footerText: "© 2026 SOS.Chebur.Shop & SOS-ID. Всі права захищені."
+            },
+            en: {
+                navAbout: "About Us",
+                navCatalog: "Catalog",
+                navLogin: "Login to SOS-ID ↗",
+                s1Title: "⌚ Emergency QR Bracelets",
+                s1Desc: "Durable silicone bracelet providing instant access to the SOS-ID medical card when scanned.",
+                s1Btn: "Order for 15 €",
+                s2Title: "📍 GPS Trackers «Care»",
+                s2Desc: "Compact device with SOS button, real-time location tracking, and fall detection for children and seniors.",
+                s2Btn: "Order for 49 €",
+                s3Title: "🏷️ Metal SOS Keychains",
+                s3Desc: "Reliable pendant or key fob with engraved QR code. Works without charging and is always with you.",
+                s3Btn: "Order for 12 €",
+                heroDemo: "Profile Demo (SOS) ↗",
+                aboutTitle: "About Our Project",
+                aboutP1: "<strong>SOS.Chebur.Shop</strong> is a specialized store for smart emergency devices created to protect your loved ones: children, elderly relatives, and people with chronic health conditions (diabetes, allergies, cardiovascular needs).",
+                aboutP2: "We combine reliable wearable devices (bracelets, pendants, GPS trackers) with a unified online platform <a href='https://www.sos-id.online' target='_blank' class='inline-link'>SOS-ID.online</a>. In an emergency, a bystander or paramedic can simply scan the QR code with any smartphone to instantly view critical medical information, first aid video guides, and emergency contact buttons.",
+                catalogTitle: "Our Products",
+                p1Title: "Emergency QR Bracelet",
+                p1Desc: "Durable silicone bracelet with hypoallergenic coating. Instantly opens the SOS-ID profile when scanned.",
+                p2Title: "GPS Tracker «Care»",
+                p2Desc: "Compact tracker for seniors and children. SOS button, real-time location tracking, and fall detection.",
+                p3Title: "SOS Keychain / Medallion",
+                p3Desc: "Metal keychain with engraved QR code for keys or bag. Always with you, requires no charging.",
+                buyBtn: "Order Now",
+                bannerTitle: "Already have our device?",
+                bannerDesc: "Fill in your medical info, specify emergency contacts, and upload a video guide on sos-id.online.",
+                bannerBtn: "Create SOS-ID Profile ↗",
+                modalTitle: "Place an Order",
+                lblProduct: "Product",
+                lblName: "Your Name",
+                lblPhone: "Phone / WhatsApp",
+                modalSubmit: "Confirm Order",
+                footerText: "© 2026 SOS.Chebur.Shop & SOS-ID. All rights reserved."
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+
+            document.getElementById('nav-about-link').innerText = t.navAbout;
+            document.getElementById('nav-catalog-link').innerText = t.navCatalog;
+            document.getElementById('nav-login').innerText = t.navLogin;
+
+            // Слайды
+            document.getElementById('s1-title').innerText = t.s1Title;
+            document.getElementById('s1-desc').innerText = t.s1Desc;
+            document.querySelectorAll('.hero-btns .btn')[0].innerText = t.s1Btn;
+
+            document.getElementById('s2-title').innerText = t.s2Title;
+            document.getElementById('s2-desc').innerText = t.s2Desc;
+            document.querySelectorAll('.hero-btns .btn')[2].innerText = t.s2Btn;
+
+            document.getElementById('s3-title').innerText = t.s3Title;
+            document.getElementById('s3-desc').innerText = t.s3Desc;
+            document.querySelectorAll('.hero-btns .btn')[4].innerText = t.s3Btn;
+
+            document.querySelectorAll('.btn-demo').forEach(btn => btn.innerText = t.heroDemo);
+
+            document.getElementById('about-title').innerText = t.aboutTitle;
+            document.getElementById('about-p1').innerHTML = t.aboutP1;
+            document.getElementById('about-p2').innerHTML = t.aboutP2;
+
+            document.getElementById('catalog-title').innerText = t.catalogTitle;
+
+            document.getElementById('p1-title').innerText = t.p1Title;
+            document.getElementById('p1-desc').innerText = t.p1Desc;
+            document.getElementById('p2-title').innerText = t.p2Title;
+            document.getElementById('p2-desc').innerText = t.p2Desc;
+            document.getElementById('p3-title').innerText = t.p3Title;
+            document.getElementById('p3-desc').innerText = t.p3Desc;
+
+            document.querySelectorAll('.btn-buy').forEach(btn => btn.innerText = t.buyBtn);
+
+            document.getElementById('banner-title').innerText = t.bannerTitle;
+            document.getElementById('banner-desc').innerText = t.bannerDesc;
+            document.getElementById('banner-btn').innerText = t.bannerBtn;
+
+            document.getElementById('modal-title').innerText = t.modalTitle;
+            document.getElementById('lbl-product').innerText = t.lblProduct;
+            document.getElementById('lbl-name').innerText = t.lblName;
+            document.getElementById('lbl-phone').innerText = t.lblPhone;
+            document.getElementById('modal-submit').innerText = t.modalSubmit;
+
+            document.getElementById('footer-text').innerText = t.footerText;
+        }
+
+        /* ЛОГИКА СЛАЙДЕРА */
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        // Автопереключение каждые 6 секунд
+        setInterval(() => {
+            changeSlide(1);
+        }, 6000);
+
+        function openOrder(productId) {
+            const t = translations[currentLang];
+            document.getElementById('productName').value = t[productId + 'Title'];
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeOrder() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        // ОТПРАВКА В WHATSAPP
+        document.getElementById('modalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const product = document.getElementById('productName').value;
+            const name = document.getElementById('input-name').value;
+            const phone = document.querySelector('#modalForm input[type="tel"]').value;
+
+            const message = `Здравствуйте! Хочу оформить заказ в SOS.Chebur.Shop:%0A` +
+                            `📦 *Товар:* ${product}%0A` +
+                            `👤 *Имя:* ${name}%0A` +
+                            `📞 *Телефон:* ${phone}`;
+
+            const waUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${message}`;
+
+            window.open(waUrl, '_blank');
+            closeOrder();
+        });
+    </script>
+</body>
+</html>
