@@ -1,4 +1,4 @@
-# 🚨 SOS.Chebur.Shop | Devices & Emergency Profiles
+# 🚨 SOS.CHEBUR.SHOP | Devices & Emergency Profiles
 
 Официальный веб-сайт магазина умных устройств экстренной связи и безопасности **SOS.Chebur.Shop**, интегрированный с единой облачной медицинской платформой **[SOS-ID.online](https://www.sos-id.online)**.
 
